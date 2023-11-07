@@ -3,6 +3,37 @@
     <div class="max-w-md">
       <div class="card w-96 shadow-xl mt-20">
         <div class="card-image border-solid border-2 border-primary-content rounded-tl-xl rounded-tr-lg">
+          <% if @battle.state == "victory" %>
+          <figure class="image-full" style="height:150px; background-color: red;">
+            <%= image_tag(@battle.opponent.sprite) %>
+            <figcaption><%= @battle.opponent.current_hp %> HP</figcaption>
+          </figure>
+          <figure class="image-full" style="height:150px; background-color: lightgreen; color: #eee;">
+            <%= image_tag(@battle.trainer.pokemons.first.sprite) %>
+            <figcaption><%= @battle.trainer.pokemons.first.current_hp %> HP</figcaption>
+          </figure>
+          <% elsif @battle.state == "defeat" %>
+          <figure class="image-full" style="height:150px background-color: lightgreen; color: #eee;">
+            <%= image_tag(@battle.opponent.sprite) %>
+            <figcaption><%= @battle.opponent.current_hp %> HP</figcaption>
+          </figure>
+          <figure class="image-full" style="height:150px background-color: red;">
+            <%= image_tag(@battle.trainer.pokemons.first.sprite) %>
+            <figcaption><%= @battle.trainer.pokemons.first.current_hp %> HP</figcaption>
+          </figure>
+          <% elsif @battle.state == "escaped" %>
+          <figure class="image-full" style="height:150px">Escaped!</figure>
+          <figure class="image-full" style="height:150px background-color: red;">
+            <%= image_tag(@battle.trainer.pokemons.first.sprite) %>
+            <figcaption><%= @battle.trainer.pokemons.first.current_hp %> HP</figcaption>
+          </figure>
+          <% elsif @battle.state == "captured" %>
+          <figure class="image-full" style="height:150px">Captured!</figure>
+          <figure class="image-full" style="height:150px background-color: red;">
+            <%= image_tag(@battle.trainer.pokemons.first.sprite) %>
+            <figcaption><%= @battle.trainer.pokemons.first.current_hp %> HP</figcaption>
+          </figure>
+          <% else %>
           <figure class="image-full" style="height:150px">
             <%= image_tag(@battle.opponent.sprite) %>
             <figcaption><%= @battle.opponent.current_hp %> HP</figcaption>
@@ -11,21 +42,27 @@
             <%= image_tag(@battle.trainer.pokemons.first.sprite) %>
             <figcaption><%= @battle.trainer.pokemons.first.current_hp %> HP</figcaption>
           </figure>
+          <% end %>
         </div>
         <div class="card-body bg-primary-content rounded-bl-xl rounded-br-lg items-center text-center">
           <h2 class="card-title text-center">
             <%= @battle.trainer.name %> VS <%= @battle.opponent.name %>
           </h2>
           <div class="divider"></div>
-          <p><%= @battle.state %></p>
           <div class="card-actions">
-            <ul class="menu bg-base-200 w-56 rounded-box">
-              <li><%= button_to 'Escape', escape_battle_path(@battle), method: :put, params: {id: @battle.id} %></li>
-              <li><div class="divider"></div></li>
-              <li><%= button_to 'Capture', capture_path(@battle), method: :put, params: {id: @battle.id} %></li>
-              <li><div class="divider"></div></li>
-              <li><%= button_to 'Attack', attack_path(@battle), method: :put, params: {id: @battle.id} %></li>
-            </ul>
+            <% if @battle.state == "move_selection" || @battle.state == "start" %>
+              <ul class="menu bg-base-200 w-56 rounded-box">
+                <li><%= button_to 'Run', escape_battle_path(@battle), method: :put, params: {id: @battle.id} %></li>
+                <li><div class="divider"></div></li>
+                <% if @battle.battle_type == "pve" %>
+                  <li><%= button_to 'Capture', capture_path(@battle), method: :put, params: {id: @battle.id} %></li>
+                  <li><div class="divider"></div></li>
+                <% end %>
+                <li><%= button_to 'Attack', attack_path(@battle), method: :put, params: {id: @battle.id} %></li>
+              </ul>
+            <% else %>
+              <%= link_to "Find new pokemon", new_encounter_path, class: "btn btn-outline" %>
+            <% end %>
           </div>
         </div>
       </div>
