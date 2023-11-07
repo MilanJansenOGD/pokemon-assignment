@@ -9,4 +9,7 @@ Rails.application.routes.draw do
   resources :pokemons, only: :index
   resources :encounters, only: :new
   resources :battles, only: [:new, :create, :show]
+  put "escape_battle", action: :escape_battle, controller: "battles"
+  put "capture", action: :capture, controller: "battles"
+  put "attack", action: :attack, controller: "battles"
 end
