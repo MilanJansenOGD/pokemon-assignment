@@ -3,46 +3,12 @@
     <div class="max-w-md">
       <div class="card w-96 shadow-xl mt-20">
         <div class="card-image border-solid border-2 border-primary-content rounded-tl-xl rounded-tr-lg">
-          <% if @battle.state == "victory" %>
-          <figure class="image-full" style="height:150px; background-color: red;">
-            <%= image_tag(@battle.opponent.sprite) %>
-            <figcaption><%= @battle.opponent.current_hp %> HP</figcaption>
-          </figure>
-          <figure class="image-full" style="height:150px; background-color: lightgreen; color: #eee;">
-            <%= image_tag(@battle.trainer.pokemons.first.sprite) %>
-            <figcaption><%= @battle.trainer.pokemons.first.current_hp %> HP</figcaption>
-          </figure>
-          <% elsif @battle.state == "defeat" %>
-          <figure class="image-full" style="height:150px background-color: lightgreen; color: #eee;">
-            <%= image_tag(@battle.opponent.sprite) %>
-            <figcaption><%= @battle.opponent.current_hp %> HP</figcaption>
-          </figure>
-          <figure class="image-full" style="height:150px background-color: red;">
-            <%= image_tag(@battle.trainer.pokemons.first.sprite) %>
-            <figcaption><%= @battle.trainer.pokemons.first.current_hp %> HP</figcaption>
-          </figure>
-          <% elsif @battle.state == "escaped" %>
-          <figure class="image-full" style="height:150px">Escaped!</figure>
-          <figure class="image-full" style="height:150px background-color: red;">
-            <%= image_tag(@battle.trainer.pokemons.first.sprite) %>
-            <figcaption><%= @battle.trainer.pokemons.first.current_hp %> HP</figcaption>
-          </figure>
-          <% elsif @battle.state == "captured" %>
-          <figure class="image-full" style="height:150px">Captured!</figure>
-          <figure class="image-full" style="height:150px background-color: red;">
-            <%= image_tag(@battle.trainer.pokemons.first.sprite) %>
-            <figcaption><%= @battle.trainer.pokemons.first.current_hp %> HP</figcaption>
-          </figure>
-          <% else %>
-          <figure class="image-full" style="height:150px">
-            <%= image_tag(@battle.opponent.sprite) %>
-            <figcaption><%= @battle.opponent.current_hp %> HP</figcaption>
-          </figure>
-          <figure class="image-full" style="height:150px">
-            <%= image_tag(@battle.trainer.pokemons.first.sprite) %>
-            <figcaption><%= @battle.trainer.pokemons.first.current_hp %> HP</figcaption>
-          </figure>
-          <% end %>
+          <%= render partial: "figures",  locals: { opponent_current_hp: @battle.opponent.current_hp,
+                                                    opponent_sprite: @battle.opponent.sprite,
+                                                    pokemon_current_hp: @battle.trainer.pokemons.first.current_hp,
+                                                    pokemon_sprite: @battle.trainer.pokemons.first.sprite,
+                                                    state: @battle.state
+                                                  } %>
         </div>
         <div class="card-body bg-primary-content rounded-bl-xl rounded-br-lg items-center text-center">
           <h2 class="card-title text-center">

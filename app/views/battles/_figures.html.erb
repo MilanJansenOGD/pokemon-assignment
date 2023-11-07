@@ -1,0 +1,18 @@
+<figure class="image-full"
+style="height:150px; <%= state == "victory" ? "background-color: red;" :
+                         state == "defeat"  ? "background-color: lightgreen; color: #333;" : "" %>">
+<% if state == "captured" %>
+  <figcaption>Captured!</figcaption>
+<% elsif state == "escaped" %>
+  <figcaption>Escaped!</figcaption>
+<% else %>
+<%= image_tag(opponent_sprite) %>
+  <figcaption><%= opponent_current_hp %> HP</figcaption>
+<% end %>
+</figure>
+<figure class="image-full"
+style="height:150px; <%= state == "victory" ? "background-color: lightgreen; color: #333;" :
+                         state == "defeat"  ? "background-color: red;" : "" %>">
+  <%= image_tag(pokemon_sprite) %>
+  <figcaption><%= pokemon_current_hp %> HP</figcaption>
+</figure>
